@@ -9,6 +9,7 @@ L=[a-zA-Z_]+
 D=[0-9]+
 operador = "+"|"-"|"/"|"*"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##"
 espacio=[ ,\t,\r,\n]+
+errorComentario = "/*"[^"*/"]*
 comentarioM=(("/")("*")([^"/*"])*("*")("/"))
 comentarioU=\-\-[^\n]*
 Entero = \^[\-\+]?\d+
@@ -61,6 +62,7 @@ palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"
 %}
 %%
 ({comentarioU}|{comentarioM}) {line=yyline; col=yycolumn; lexeme=yytext(); return Comentario;}
+{errorComentario}             {line=yyline; col=yycolumn; lexeme=yytext(); return Comentario_Incompleto;}
 {espacio}                     {/*Ignore*/}
 {Entero}                      {line=yyline; col=yycolumn; lexeme=yytext(); return Entero;}
 {float}                       {line=yyline; col=yycolumn; lexeme=yytext(); return Decimal;}

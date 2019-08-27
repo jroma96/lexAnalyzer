@@ -1,9 +1,13 @@
 ADD: Es un Reservadas en la linea: 0 y la columna: 0
+INT: Es un Reservadas en la linea: 1 y la columna: 0
+asdfghjklepoiuytrewqzxcvbnmkjhq: Es un Identificador en la linea: 1 y la columna: 4
 --HOLA CEROTA PUTA: Es un Comentario en la linea: 2 y la columna: 0
 CHECK: Es un Reservadas en la linea: 3 y la columna: 13
 CASE: Es un Reservadas en la linea: 5 y la columna: 28
 HOLA26: Es un Identificador en la linea: 6 y la columna: 0
-stringa: Es un Identificador en la linea: 8 y la columna: 3
+/*bedwendkwed
+			stringa
+: Es un Comentario_Incompleto en la linea: 7 y la columna: 0
 /* naruto es la mejor serie de anime de
 
 

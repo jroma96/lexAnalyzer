@@ -111,7 +111,7 @@ public class Principal extends javax.swing.JFrame {
                          out.newLine();
                      
                         break;
-                    case Reservadas: case Entero: case Decimal: case String: case Boolean: case Comentario: case Operador:
+                    case Reservadas: case Entero: case Decimal: case String: case Boolean: case Comentario: case Operador: case Comentario_Incompleto:
                         res += lex.lexeme+": Es un "+tokens+"\n";
                         outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
                         out.append(outText);
@@ -119,7 +119,7 @@ public class Principal extends javax.swing.JFrame {
                         break;
                     case Identificador:
                         if(lex.lexeme.length() > 31){
-                           res += "El identificador excede el limite de caracteres, se utilizaran los primeros 31 en el archivo";
+                           res += "El identificador excede el limite de caracteres, se utilizaran los primeros 31 en el archivo\n";
                            outText = lex.lexeme.substring(0, 31)+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
                            out.append(outText);
                            out.newLine();

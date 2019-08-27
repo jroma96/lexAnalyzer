@@ -11,6 +11,7 @@ package lexanalyzer;
  */
 public enum Tokens {
     Comentario,
+    Comentario_Incompleto,
     Reservadas,
     Identificador,
     Decimal,
