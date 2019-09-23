@@ -83,6 +83,7 @@ public class Principal extends javax.swing.JFrame {
 
     Lexer lex;
     Tokens tokens;
+    boolean bandera;
     private void btn_analizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_analizarActionPerformed
         // TODO add your handling code here:
         JFileChooser pick = new JFileChooser();
@@ -98,17 +99,9 @@ public class Principal extends javax.swing.JFrame {
                 }
                 switch(tokens){
                     case ERROR:
-//                     res += "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col+"\n";
-//                     outText = "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col;
-//                     out.append(outText);
-//                     out.newLine();
                         
                         break;
                     case Reservadas:
-//                    res += lex.lexeme+": Es un "+tokens+"\n";
-//                    outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-//                    out.append(outText);
-//                    out.newLine();
                         switch(lex.lexeme){
                             case "SELECT":
                                 break;
@@ -121,20 +114,6 @@ public class Principal extends javax.swing.JFrame {
                                 break;
                         }    
                         break;
-//                    case Identificador:
-//                        if(lex.lexeme.length() > 31){
-//                           res += "El identificador excede el limite de caracteres, se utilizaran los primeros 31 en el archivo\n";
-//                           outText = lex.lexeme.substring(0, 31)+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-//                           out.append(outText);
-//                           out.newLine();
-//                        }
-//                        else{
-//                            res += lex.lexeme+": Es un "+tokens+"\n";
-//                            outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-//                            out.append(outText);
-//                            out.newLine();
-//                        }
-//                        break;
                     default:
                         break;
                 
@@ -150,11 +129,15 @@ public class Principal extends javax.swing.JFrame {
     public void delete(){
         try{
             tokens = lex.yylex();
-            switch(lex.lexeme){
-                case "TOP":
-                    
-                    break;
+            if(lex.lexeme == "TOP"){
+                top();
             }
+            else if(lex.lexeme == "FROM"){
+                from();
+            }
+            else{
+                
+            }        
         }
         catch(Exception ex){
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,7 +145,42 @@ public class Principal extends javax.swing.JFrame {
         
     }
     
+    public void from(){
+        try{
+            tokens = lex.yylex();
+            if(tokens == Tokens.Identificador){
+                where();
+            }      
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void top(){
+        try{
+            tokens = lex.yylex();
+            if(tokens == Tokens.Entero){
+                from();
+            }
+            else{
+                
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void where(){
+        try{
+            tokens = lex.yylex();
+
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */

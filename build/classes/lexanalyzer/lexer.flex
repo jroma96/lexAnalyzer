@@ -61,7 +61,7 @@ palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"
     public int line;
 %}
 %%
-({comentarioU}|{comentarioM}) {line=yyline; col=yycolumn; lexeme=yytext(); return Comentario;}
+({comentarioU}|{comentarioM}) {/*Ignore*/}
 {errorComentario}             {line=yyline; col=yycolumn; lexeme=yytext(); return Comentario_Incompleto;}
 {espacio}                     {/*Ignore*/}
 {Entero}                      {line=yyline; col=yycolumn; lexeme=yytext(); return Entero;}
@@ -71,4 +71,5 @@ palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"
 {operador}                    {line=yyline; col=yycolumn; lexeme=yytext(); return Operador;}
 {palabrasReservadas}          {line=yyline; col=yycolumn; lexeme=yytext(); return Reservadas;}
 {L}({L}|{D})*                 {line=yyline; col=yycolumn; lexeme=yytext(); return Identificador;}
+
  .                            {line=yyline; col=yycolumn; lexeme=yytext(); return ERROR;}
