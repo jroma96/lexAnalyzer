@@ -81,56 +81,60 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    Lexer lex;
+    Tokens tokens;
     private void btn_analizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_analizarActionPerformed
         // TODO add your handling code here:
         JFileChooser pick = new JFileChooser();
         pick.showOpenDialog(null);      
         try {
             Reader lector = new BufferedReader(new FileReader(pick.getSelectedFile()));
-            BufferedWriter out = new BufferedWriter(new FileWriter("res.out"));
-            Lexer lex = new Lexer(lector);
-            String res = "";
-            String outText = "";
+            lex = new Lexer(lector);
             while (true) {
-                Tokens tokens = lex.yylex();
+                tokens = lex.yylex();
                 if(tokens == null){
-                    res += "FIN";
-                    txtA_resultado.setText(res);
-                    out.append("EOF");
-                    out.close();
+                    txtA_resultado.setText("CORRECTO");
                     break;
                 }
                 switch(tokens){
                     case ERROR:
+//                     res += "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col+"\n";
+//                     outText = "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col;
+//                     out.append(outText);
+//                     out.newLine();
                         
-
-                     
-                         res += "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col+"\n";
-                         outText = "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col;
-                         out.append(outText);
-                         out.newLine();
-                     
                         break;
-                    case Reservadas: case Entero: case Decimal: case String: case Boolean: case Comentario: case Operador: case Comentario_Incompleto:
-                        res += lex.lexeme+": Es un "+tokens+"\n";
-                        outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-                        out.append(outText);
-                        out.newLine();
+                    case Reservadas:
+//                    res += lex.lexeme+": Es un "+tokens+"\n";
+//                    outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
+//                    out.append(outText);
+//                    out.newLine();
+                        switch(lex.lexeme){
+                            case "SELECT":
+                                break;
+                            case "DELETE":
+                                delete();
+                                break;
+                            case "INSERT":
+                                break;
+                            case "UPDATE":
+                                break;
+                        }    
                         break;
-                    case Identificador:
-                        if(lex.lexeme.length() > 31){
-                           res += "El identificador excede el limite de caracteres, se utilizaran los primeros 31 en el archivo\n";
-                           outText = lex.lexeme.substring(0, 31)+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-                           out.append(outText);
-                           out.newLine();
-                        }
-                        else{
-                            res += lex.lexeme+": Es un "+tokens+"\n";
-                            outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-                            out.append(outText);
-                            out.newLine();
-                        }
-                        break;
+//                    case Identificador:
+//                        if(lex.lexeme.length() > 31){
+//                           res += "El identificador excede el limite de caracteres, se utilizaran los primeros 31 en el archivo\n";
+//                           outText = lex.lexeme.substring(0, 31)+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
+//                           out.append(outText);
+//                           out.newLine();
+//                        }
+//                        else{
+//                            res += lex.lexeme+": Es un "+tokens+"\n";
+//                            outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
+//                            out.append(outText);
+//                            out.newLine();
+//                        }
+//                        break;
                     default:
                         break;
                 
@@ -143,6 +147,22 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_analizarActionPerformed
 
+    public void delete(){
+        try{
+            tokens = lex.yylex();
+            switch(lex.lexeme){
+                case "TOP":
+                    
+                    break;
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
