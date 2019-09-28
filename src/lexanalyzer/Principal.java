@@ -99,22 +99,30 @@ public class Principal extends javax.swing.JFrame {
                 }
                 switch(tokens){
                     case ERROR:
-                        
+                        error();
                         break;
                     case Reservadas:
                         switch(lex.lexeme){
                             case "SELECT":
                                 break;
                             case "DELETE":
-                                delete();
+                                //delete();
                                 break;
                             case "INSERT":
                                 break;
                             case "UPDATE":
                                 break;
+                            case "DROP":
+                                drop();
+                                txtA_resultado.setText("CORRECTO");
+                                break;
+                            default:
+                                error();
+                                break;
                         }    
                         break;
                     default:
+                        error();
                         break;
                 
                 }
@@ -125,62 +133,108 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_analizarActionPerformed
-
-    public void delete(){
+       
+    public void drop(){
         try{
             tokens = lex.yylex();
-            if(lex.lexeme == "TOP"){
-                top();
+            switch(lex.lexeme){
+                case "LOGIN":
+                    B();
+                    break;
+                case "TABLE":
+                    C();
+                    break;
+                case "DATABASE":
+                    break;
+                case "VIEW":
+                    break;
+                case "INDEX":
+                    break;
+                default:
+                    error();
+                    break;
             }
-            else if(lex.lexeme == "FROM"){
-                from();
-            }
-            else{
-                
-            }        
         }
         catch(Exception ex){
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+    }
+    public void C(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals("IF")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("EXISTS")){
+                    //G();
+                }
+            }
+            else{
+                G();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    public void from(){
+    public void G(){
         try{
             tokens = lex.yylex();
             if(tokens == Tokens.Identificador){
-                where();
-            }      
-        }
-        catch(Exception ex){
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void top(){
-        try{
-            tokens = lex.yylex();
-            if(tokens == Tokens.Entero){
-                from();
-            }
-            else{
                 
             }
+            else{
+                error();
+            }
         }
         catch(Exception ex){
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void where(){
+    public void B(){
         try{
             tokens = lex.yylex();
-
+            if(tokens == Tokens.Identificador){
+                
+            }
+            else{
+                error();
+            }
         }
         catch(Exception ex){
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void FIN(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme == "GO" || lex.lexeme == ";"){
+                return;
+            }
+            else{
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void error(){
+        try{
+            tokens = lex.yylex();
+            while(lex.lexeme.equals(";") | lex.lexeme.equals("GO")){
+                lex.yylex();
+            }
+       
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

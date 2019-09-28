@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/Principal.java</file>
-            <file>file:/C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/Tokens.java</file>
-            <file>file:/C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/Main.java</file>
-            <file>file:/C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/LexAnalyzer.java</file>
-            <file>file:/C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/lexer.flex</file>
-            <file>file:/C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/Lexer.java</file>
+            <file>file:/C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Principal.java</file>
+            <file>file:/C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Tokens.java</file>
+            <file>file:/C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/lexer.flex</file>
+            <file>file:/C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Main.java</file>
         </group>
     </open-files>
 </project-private>
