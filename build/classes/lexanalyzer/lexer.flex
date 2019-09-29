@@ -7,8 +7,9 @@ import static lexanalyzer.Tokens.*;
 %type Tokens
 L=[a-zA-Z_]+
 D=[0-9]+
+coma=","
 operador = "+"|"-"|"/"|"*"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|";"|","|"."|"["|"]"|"("|")"|"{"|"}"|"[]"|"()"|"{}"|"@"|"#"|"##"
-espacio=[ ,\t,\r,\n]+
+espacio=[ \s]+
 errorComentario = "/*"[^"*/"]*
 comentarioM=(("/")("*")([^"/*"])*("*")("/"))
 comentarioU=\-\-[^\n]*
@@ -71,5 +72,5 @@ palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"
 {operador}                    {line=yyline; col=yycolumn; lexeme=yytext(); return Operador;}
 {palabrasReservadas}          {line=yyline; col=yycolumn; lexeme=yytext(); return Reservadas;}
 {L}({L}|{D})*                 {line=yyline; col=yycolumn; lexeme=yytext(); return Identificador;}
-
+{coma}                        {line=yyline; col=yycolumn; lexeme=yytext(); return Coma;}                                                                                          
  .                            {line=yyline; col=yycolumn; lexeme=yytext(); return ERROR;}

@@ -91,10 +91,11 @@ public class Principal extends javax.swing.JFrame {
         try {
             Reader lector = new BufferedReader(new FileReader(pick.getSelectedFile()));
             lex = new Lexer(lector);
+            //tokens = lex.yylex();
             while (true) {
                 tokens = lex.yylex();
                 if(tokens == null){
-                    txtA_resultado.setText("CORRECTO");
+                    //txtA_resultado.setText("CORRECTO");
                     break;
                 }
                 switch(tokens){
@@ -145,6 +146,7 @@ public class Principal extends javax.swing.JFrame {
                     C();
                     break;
                 case "DATABASE":
+                    D();
                     break;
                 case "VIEW":
                     break;
@@ -159,6 +161,61 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void D(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals("IF")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("EXISTS")){
+                    J();
+                }
+            }
+            else{
+                J();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void J(){
+        try{
+            tokens = lex.yylex();
+            if(tokens == Tokens.Identificador){
+                K();
+            }
+            else{
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void K(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals(",")){
+                tokens = lex.yylex();
+                if(tokens == Tokens.Identificador){
+                    K();
+                }
+                else{
+                    error();
+                }
+            }
+            else{
+                return;
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void C(){
         try{
             tokens = lex.yylex();
@@ -179,7 +236,7 @@ public class Principal extends javax.swing.JFrame {
     
     public void G(){
         try{
-            tokens = lex.yylex();
+            //tokens = lex.yylex();
             if(tokens == Tokens.Identificador){
                 tokens = lex.yylex();
                 if(lex.lexeme.equals(".")){
@@ -189,6 +246,7 @@ public class Principal extends javax.swing.JFrame {
                         if(lex.lexeme.equals(".")){
                             tokens = lex.yylex();
                             if(tokens == Tokens.Identificador){
+                                tokens = lex.yylex();
                                 H();
                             }
                             else{
@@ -218,7 +276,7 @@ public class Principal extends javax.swing.JFrame {
     
     public void H(){
         try{
-            tokens = lex.yylex();
+            //tokens = lex.yylex();
             if(lex.lexeme.equals(",")){
                 tokens = lex.yylex();
             if(tokens == Tokens.Identificador){
@@ -230,6 +288,7 @@ public class Principal extends javax.swing.JFrame {
                         if(lex.lexeme.equals(".")){
                             tokens = lex.yylex();
                             if(tokens == Tokens.Identificador){
+                                tokens = lex.yylex();
                                 H();
                             }
                             else{
@@ -287,8 +346,9 @@ public class Principal extends javax.swing.JFrame {
     
     public void error(){
         try{
+            //col =;
             tokens = lex.yylex();
-            while(lex.lexeme.equals(";") | lex.lexeme.equals("GO")){
+            while(lex.lexeme != ";" | lex.lexeme != "GO"){
                 lex.yylex();
             }
        

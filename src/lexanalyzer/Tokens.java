@@ -19,5 +19,6 @@ public enum Tokens {
     String,
     Boolean,
     Operador,
+    Coma,
     ERROR
 }

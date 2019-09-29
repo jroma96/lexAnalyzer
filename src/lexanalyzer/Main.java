@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class Main {
     public static void main(String[] args) {
-        String ruta = "C:/Users/Obed/Documents/NetBeansProjects/lexAnalyzer/src/lexanalyzer/lexer.flex";
+        String ruta = "C:\\Users\\Obed\\Documents\\GitHub\\lexAnalyzer\\src\\lexanalyzer\\lexer.flex";
         genLexer(ruta);
     }
     public static void genLexer (String ruta){
