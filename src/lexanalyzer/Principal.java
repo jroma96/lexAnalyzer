@@ -182,7 +182,7 @@ public class Principal extends javax.swing.JFrame {
     
     public void J(){
         try{
-            tokens = lex.yylex();
+            //tokens = lex.yylex();
             if(tokens == Tokens.Identificador){
                 K();
             }
