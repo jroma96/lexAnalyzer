@@ -179,11 +179,59 @@ public class Principal extends javax.swing.JFrame {
             if(lex.lexeme.equals("IF")){
                 tokens = lex.yylex();
                 if(lex.lexeme.equals("EXISTS")){
-                    //L();
+                    L();
                 }
             }
             else{
-                //L();
+                L();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void L(){
+        try{
+            tokens = lex.yylex();
+            if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals(".")){
+                    M();
+                }
+            }
+            else{
+                M();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void M(){
+        try{
+            tokens = lex.yylex();
+            if(tokens == Tokens.Identificador){
+                N();
+            }
+            else{
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void N(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals(",")){
+                L();
+            }
+            else{
+                FIN();
             }
         }
         catch(Exception ex){
@@ -251,6 +299,7 @@ public class Principal extends javax.swing.JFrame {
             if(lex.lexeme.equals("IF")){
                 tokens = lex.yylex();
                 if(lex.lexeme.equals("EXISTS")){
+                    tokens = lex.yylex();
                     G();
                 }
             }
