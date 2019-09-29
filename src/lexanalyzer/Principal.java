@@ -149,6 +149,7 @@ public class Principal extends javax.swing.JFrame {
                     D();
                     break;
                 case "VIEW":
+                    //E();
                     break;
                 case "INDEX":
                     break;
