@@ -119,6 +119,7 @@ public class Principal extends javax.swing.JFrame {
                                 //delete();
                                 break;
                             case "INSERT":
+                                insert();
                                 break;
                             case "UPDATE":
                                 break;
@@ -171,6 +172,54 @@ public class Principal extends javax.swing.JFrame {
                 default:
                     error();
                     break;
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Binsert(){
+        try{
+            if(lex.lexeme.equals("INTO")){
+                tokens = lex.yylex();
+                //Cinsert();
+            }
+            else{
+                //Cinsert();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insert(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals("TOP")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("(")){
+                    tokens = lex.yylex();
+                    if(tokens == Tokens.Entero){
+                        if(lex.lexeme.equals(")")){
+                            tokens = lex.yylex();
+                            Binsert();
+                        }
+                        else{
+                            error();
+                        }
+                    }
+                    else{
+                        error();
+                    }
+                }
+                else{
+                    error();
+                }
+            }
+            else{
+                Binsert();
             }
         }
         catch(Exception ex){
