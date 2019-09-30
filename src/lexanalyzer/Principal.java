@@ -122,9 +122,13 @@ public class Principal extends javax.swing.JFrame {
                                 break;
                             case "UPDATE":
                                 break;
+                            case "ALTER":
+                                break;
+                            case "TRUNCATE":
+                                truncate();
+                                break;
                             case "DROP":
                                 drop();
-                                
                                 break;
                             default:
                                 error();
@@ -162,10 +166,167 @@ public class Principal extends javax.swing.JFrame {
                     E();
                     break;
                 case "INDEX":
+                    F();
                     break;
                 default:
                     error();
                     break;
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void truncate(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals("TABLE")){
+                tokens = lex.yylex();
+                if(tokens == Tokens.Identificador){
+                    tokens = lex.yylex();
+                    if(lex.lexeme.equals(".")){
+                        tokens = lex.yylex();
+                        if(tokens == Tokens.Identificador){
+                            tokens = lex.yylex();
+                            if(lex.lexeme.equals(".")){
+                                tokens = lex.yylex();
+                                if(tokens == Tokens.Identificador){
+                                    tokens = lex.yylex();
+                                    FIN();
+                                }
+                                else{
+                                    error();
+                                }
+                            }
+                            else{
+                                FIN();
+                            }
+                        }
+                        else{
+                            error();
+                        }
+                    }
+                    else{
+                        FIN();
+                    }
+                }
+                else{
+                    error();
+                }
+            }
+            else{
+               
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
+    
+    public void F(){
+        try{
+            tokens = lex.yylex();
+            if(lex.lexeme.equals("IF")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("EXISTS")){
+                    tokens = lex.yylex();
+                    X();
+                }
+            }
+            else{
+                X();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void X(){
+        try{
+            if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("ON")){
+                    tokens = lex.yylex();
+                    object();
+                }
+                else if(lex.lexeme.equals(".")){
+                    tokens = lex.yylex();
+                    Z();
+                }
+                else{
+                    error();
+                }
+            }
+            else{
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        public void Z(){
+        try{
+            if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals(".")){
+                    tokens = lex.yylex();
+                    if(tokens == Tokens.Identificador){
+                        tokens = lex.yylex();
+                        FIN();
+                    }
+                    else{
+                        error();
+                    }
+                }
+                else{
+                    FIN();
+                }
+            }
+            else{
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void object(){
+        try{
+            if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals(".")){
+                    tokens = lex.yylex();
+                    if(tokens == Tokens.Identificador){
+                        tokens = lex.yylex();
+                        if(lex.lexeme.equals(".")){
+                            tokens = lex.yylex();
+                            if(tokens == Tokens.Identificador){
+                                tokens = lex.yylex();
+                                FIN();
+                            }
+                            else{
+                                error();
+                            }
+                        }
+                        else{
+                            FIN();
+                        }
+                    }
+                    else{
+                        error();
+                    }
+                }
+                else{
+                    FIN();
+                }
+            }
+            else{
+                error();
             }
         }
         catch(Exception ex){
@@ -179,6 +340,7 @@ public class Principal extends javax.swing.JFrame {
             if(lex.lexeme.equals("IF")){
                 tokens = lex.yylex();
                 if(lex.lexeme.equals("EXISTS")){
+                    tokens = lex.yylex();
                     L();
                 }
             }
@@ -193,11 +355,15 @@ public class Principal extends javax.swing.JFrame {
     
     public void L(){
         try{
-            tokens = lex.yylex();
+            
             if(tokens == Tokens.Identificador){
                 tokens = lex.yylex();
                 if(lex.lexeme.equals(".")){
+                    tokens = lex.yylex();
                     M();
+                }
+                else{
+                    FIN();
                 }
             }
             else{
@@ -211,7 +377,7 @@ public class Principal extends javax.swing.JFrame {
     
     public void M(){
         try{
-            tokens = lex.yylex();
+            //tokens = lex.yylex();
             if(tokens == Tokens.Identificador){
                 N();
             }
@@ -228,6 +394,7 @@ public class Principal extends javax.swing.JFrame {
         try{
             tokens = lex.yylex();
             if(lex.lexeme.equals(",")){
+                tokens = lex.yylex();
                 L();
             }
             else{
@@ -245,6 +412,7 @@ public class Principal extends javax.swing.JFrame {
             if(lex.lexeme.equals("IF")){
                 tokens = lex.yylex();
                 if(lex.lexeme.equals("EXISTS")){
+                    tokens = lex.yylex();
                     J();
                 }
             }
