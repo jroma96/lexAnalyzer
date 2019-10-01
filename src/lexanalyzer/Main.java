@@ -6,6 +6,8 @@
 package lexanalyzer;
 
 import java.io.File;
+import java.nio.file.*;
+import java.nio.file.Paths;
 
 /**
  *
@@ -13,7 +15,8 @@ import java.io.File;
  */
 public class Main {
     public static void main(String[] args) {
-        String ruta = "C:\\Users\\Obed\\Documents\\GitHub\\lexAnalyzer\\src\\lexanalyzer\\lexer.flex";
+        String ruta = FileSystems.getDefault().getPath("").toAbsolutePath()+"\\src\\lexanalyzer\\lexer.flex";
+        System.out.println(ruta);
         genLexer(ruta);
     }
     public static void genLexer (String ruta){
