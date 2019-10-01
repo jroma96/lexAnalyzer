@@ -15,8 +15,8 @@ comentarioM=(("/")("*")([^"/*"])*("*")("/"))
 comentarioU=\-\-[^\n]*
 Entero = \^[\-\+]?\d+
 float = [\-\+]?[0-9]+\.?[0-9]*([eE][\-\+]?[0-9]+)?
-cadenaD = (\")[^\n]*(\")
-cadenaU = (\')[^\n]*(\')
+cadenaD = (\")[^\n\"]*(\")
+cadenaU = (\')[^\n\']*(\')
 bool = (1|0|NULL)
 palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"|"BACKUP"|
                      "BEGIN"|"BETWEEN"|"BREAK"|"BROWSE"|"BULK"|"BY"|"CASCADE"|"CASE"|"CHECK"|

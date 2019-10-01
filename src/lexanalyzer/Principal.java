@@ -86,9 +86,13 @@ public class Principal extends javax.swing.JFrame {
     int col;
     int line;
     boolean bandera = true;
-    String msj;
+    boolean carryError = true;
+    String msj = "";
     private void btn_analizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_analizarActionPerformed
         // TODO add your handling code here:
+        txtA_resultado.setText("");
+        msj = "";
+        bandera = true;
         JFileChooser pick = new JFileChooser();
         pick.showOpenDialog(null);      
         try {
@@ -100,7 +104,7 @@ public class Principal extends javax.swing.JFrame {
                 if(tokens == null){
                     //txtA_resultado.setText("CORRECTO");
                     if( bandera == false){
-                        txtA_resultado.setText("INCORRECTO LINEA: "+line+" COLUMNA: "+col);
+                        txtA_resultado.setText("INCORRECTO:\n"+msj);
                     }
                     else{
                         txtA_resultado.setText("CORRECTO");
@@ -137,6 +141,7 @@ public class Principal extends javax.swing.JFrame {
                         }    
                         break;
                     default:
+                        msj+="Error: Se esperaba inicio de sentecia en linea: "+lex.line+" y columna: "+lex.col+"\n";
                         error();
                         break;
                 
@@ -170,6 +175,7 @@ public class Principal extends javax.swing.JFrame {
                     F();
                     break;
                 default:
+                    msj+="Error: Se esperaba objeto a eliminar en linea: "+lex.line+" y columna: "+lex.col+"\n";
                     error();
                     break;
             }
@@ -183,10 +189,370 @@ public class Principal extends javax.swing.JFrame {
         try{
             if(lex.lexeme.equals("INTO")){
                 tokens = lex.yylex();
-                //Cinsert();
+                Cinsert();
             }
             else{
-                //Cinsert();
+                Cinsert();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void expression(){
+        try{
+            if(tokens == Tokens.Entero || tokens == Tokens.String || tokens == Tokens.Decimal){
+                tokens = lex.yylex();
+                Oinsert();
+            }
+            else if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals(".")){
+                    tokens = lex.yylex();
+                    if(tokens == Tokens.Identificador){
+                        tokens = lex.yylex();
+                        Oinsert();
+                    }
+                    else{
+                        msj+="Error: Se esperaba identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                        error();
+                    }
+                }
+                else{
+                    Oinsert();
+                }
+            }
+            else if(lex.lexeme.equals("@")){
+                tokens = lex.yylex();
+                if(tokens == Tokens.Identificador){
+                    tokens = lex.yylex();
+                    Oinsert();
+                }
+                else{
+                    msj+="Error: Se esperaba identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                    error();
+                }
+            }
+            else if(lex.lexeme.equals("+")||lex.lexeme.equals("-")){
+                tokens = lex.yylex();
+                expression();
+            }
+            else if(lex.lexeme.equals("SUM")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("(")){
+                    tokens = lex.yylex();
+                    if(lex.lexeme.equals("ALL")||lex.lexeme.equals("DISTINCT")){
+                        tokens = lex.yylex();
+                        expression();
+                    }
+                    else{
+                        expression();
+                    }
+                }
+                else{
+                    msj+="Error: Se esperaba '(' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                    error();
+                }
+            }
+            else{
+                msj+="Error: Se esperaba '(' , '@', '+', '-', 'SUM', identificador, numero o cadena en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Pinsert(){
+        try{
+            if(lex.lexeme.equals("(")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("DEFAULT")||lex.lexeme.equals("NULL")){
+                    tokens = lex.yylex();
+                    Oinsert();
+                }
+                else{
+                    expression();
+                }
+            }
+            else{
+                FIN();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Oinsert(){
+        try{
+            if(lex.lexeme.equals(",")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("DEFAULT")){
+                    tokens = lex.yylex();
+                    Oinsert();
+                }
+                else if(lex.lexeme.equals("NULL")){
+                    tokens = lex.yylex();
+                    Oinsert();
+                }
+                else{
+                    expression();
+                    
+                }
+            }
+            else if(lex.lexeme.equals(")")){
+                tokens = lex.yylex();
+                Pinsert();
+            }
+            else{
+                msj+="Error: Se esperaba ')' o ',' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Ninsert(){
+        try{
+            if(lex.lexeme.equals("(")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("DEFAULT")){
+                    tokens = lex.yylex();
+                    Oinsert();
+                }
+                else if(lex.lexeme.equals("NULL")){
+                    tokens = lex.yylex();
+                    Oinsert();
+                }
+                else{
+                    expression();
+                }
+            }
+            else{
+                msj+="Error: Se esperaba '(' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Linsert(){
+        try{
+            if(lex.lexeme.equals("VALUES")){
+                tokens = lex.yylex();
+                Ninsert();
+            }
+            else if(lex.lexeme.equals("DEFAULT")){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals("VALUES")){
+                    tokens = lex.yylex();
+                    Ninsert();
+                }
+                else{
+                    msj+="Error: Se esperaba 'VALUES' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                    error();
+                }
+            }
+            else{
+                msj+="Error: Se esperaba 'VALUES' o 'DEFAULT' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Minsert(){
+        try{
+            if(lex.lexeme.equals(",")){
+                tokens = lex.yylex();
+                if(tokens == Tokens.Identificador){
+                    tokens = lex.yylex();
+                    Minsert();
+                }
+                else{
+                    msj+="Error: Se esperaba Identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                    error();
+                }
+            }
+            else if(lex.lexeme.equals(")")){
+                tokens = lex.yylex();
+                Linsert();
+            }
+            else{
+                msj+="Error: Se esperaba '(' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void columnList(){
+        try{
+            if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                Minsert();
+            }
+            else{
+                msj+="Error: Se esperaba '(' en linea: "+line+" y columna: "+col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Einsert(){
+        try{
+            if(lex.lexeme.equals("(")){
+                tokens = lex.yylex();
+                columnList();
+            }
+            else{
+                Linsert();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void objectInsert(){
+        try{
+            if(tokens == Tokens.Identificador){
+                tokens = lex.yylex();
+                if(lex.lexeme.equals(".")){
+                    tokens = lex.yylex();
+                    if(tokens == Tokens.Identificador){
+                        tokens = lex.yylex();
+                        if(lex.lexeme.equals(".")){
+                            tokens = lex.yylex();
+                            if(tokens == Tokens.Identificador){
+                                tokens = lex.yylex();
+                                if(lex.lexeme.equals(".")){
+                                    tokens = lex.yylex();
+                                    if(tokens == Tokens.Identificador){
+                                        tokens = lex.yylex();
+                                        Einsert();
+                                    }
+                                    else{
+                                        msj+="Error: Se esperaba identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                                        error();
+                                    }
+                                }
+                                else{
+                                    
+                                    Einsert();
+                                }
+                            }
+                            else{
+                                msj+="Error: Se esperaba identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                                error();
+                            }
+                        }
+                        else{
+                            
+                            Einsert();
+                        }
+                    }
+                    else if(lex.lexeme.equals(".")){
+                        tokens = lex.yylex();
+                        if(tokens == Tokens.Identificador){
+                            tokens = lex.yylex();
+                            Einsert();
+                        }
+                        else{
+                            msj+="Error: Se esperaba identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                            error();
+                        }
+                    }
+                }
+                else{
+                    Einsert();
+                }
+            }
+            else{
+                msj+="Error: Se esperaba identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void openquery(){
+        try{
+            if(lex.lexeme.equals("(")){
+                tokens = lex.yylex();
+                if(tokens == Tokens.Identificador){
+                    tokens = lex.yylex();
+                    if(lex.lexeme.equals(",")){
+                        tokens = lex.yylex();
+                        if(tokens == Tokens.String){
+                            tokens = lex.yylex();
+                            if(lex.lexeme.equals(")")){
+                                tokens = lex.yylex();
+                                Einsert();
+                            }
+                            else{
+                                msj+="Error: Se esperaba ')' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                                error();
+                            }
+                        }
+                        else{
+                            msj+="Error: Se esperaba String en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                            error();
+                        }
+                    }
+                    else{
+                        msj+="Error: Se esperaba ',' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                        error();
+                    }
+                }
+                else{
+                    msj+="Error: Se esperaba Identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                    error();
+                }
+            }
+            else{
+                msj+="Error: Se esperaba '(' en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
+            }
+        }
+        catch(Exception ex){
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void Cinsert(){
+        try{
+            if(tokens == Tokens.Identificador){
+                //tokens = lex.yylex();
+                objectInsert();
+            }
+            else if(lex.lexeme.equals("OPENQUERY")){
+                tokens = lex.yylex();
+                openquery();
+            }
+            else if(lex.lexeme.equals("OPENROWSET")){
+                tokens = lex.yylex();
+                //openrowset();
+            }
+            else{
+                msj+="Error: Se esperaba OPENQUERY, OPENROWSET o identificador en linea: "+lex.line+" y columna: "+lex.col+"\n";
+                error();
             }
         }
         catch(Exception ex){
@@ -637,6 +1003,7 @@ public class Principal extends javax.swing.JFrame {
                 return;
             }
             else{
+                msj+="Error: Se esperaba final de sentencia en linea: "+lex.line+" y columna: "+lex.col+"\n";
                 error();
             }
         }
@@ -649,6 +1016,7 @@ public class Principal extends javax.swing.JFrame {
         try{
             col = lex.col;
             line = lex.line;
+            carryError = false;
             bandera = false;
             tokens = lex.yylex();
             while(!lex.lexeme.equals(";") && !lex.lexeme.equals("GO") && tokens != null){
