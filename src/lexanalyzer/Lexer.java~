@@ -65,20 +65,20 @@ class Lexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\5\4\2\1\1\5\4\4"+
-    "\3\1\30\2\1\3\1\0\1\6\1\0\1\7\2\0"+
-    "\1\10\1\0\1\10\4\2\1\11\13\2\1\11\1\2"+
-    "\1\11\17\2\1\11\40\2\1\11\1\2\1\11\3\2"+
-    "\2\11\1\2\1\11\24\2\1\11\24\2\1\3\2\0"+
-    "\12\2\1\11\12\2\1\11\10\2\1\11\20\2\1\11"+
-    "\26\2\1\11\11\2\1\11\24\2\1\11\1\2\1\11"+
-    "\15\2\1\11\23\2\1\11\12\2\1\11\2\2\1\6"+
-    "\1\12\22\2\1\11\12\2\1\11\4\2\1\11\1\0"+
-    "\10\2\1\11\36\2\1\11\15\2\2\11\21\2\1\11"+
-    "\4\2\2\11\27\2\1\11\6\2\1\0\32\2\1\11"+
-    "\33\2\1\11\15\2\1\0\1\11\46\2\1\0\4\2"+
-    "\1\11\3\2\1\11\1\2\1\11\12\2\1\0\5\2"+
-    "\1\11\6\2\1\11\4\2\1\11\1\0\11\2\1\0"+
-    "\10\2\1\0\7\2\1\0\2\2\1\11\21\2";
+    "\3\1\30\2\1\3\1\0\1\6\1\7\1\10\2\0"+
+    "\1\11\1\0\1\11\4\2\1\12\13\2\1\12\1\2"+
+    "\1\12\17\2\1\12\40\2\1\12\1\2\1\12\3\2"+
+    "\2\12\1\2\1\12\24\2\1\12\24\2\1\3\2\0"+
+    "\12\2\1\12\12\2\1\12\10\2\1\12\20\2\1\12"+
+    "\26\2\1\12\11\2\1\12\24\2\1\12\1\2\1\12"+
+    "\15\2\1\12\23\2\1\12\12\2\1\12\2\2\1\6"+
+    "\1\13\22\2\1\12\12\2\1\12\4\2\1\12\1\0"+
+    "\10\2\1\12\36\2\1\12\15\2\2\12\21\2\1\12"+
+    "\4\2\2\12\27\2\1\12\6\2\1\0\32\2\1\12"+
+    "\33\2\1\12\15\2\1\0\1\12\46\2\1\0\4\2"+
+    "\1\12\3\2\1\12\1\2\1\12\12\2\1\0\5\2"+
+    "\1\12\6\2\1\12\4\2\1\12\1\0\11\2\1\0"+
+    "\10\2\1\0\7\2\1\0\2\2\1\12\21\2";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[670];
@@ -934,11 +934,11 @@ class Lexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\5\1\1\11\44\1\1\0\1\1\1\0"+
-    "\1\1\2\0\1\1\1\0\170\1\2\0\227\1\1\11"+
-    "\44\1\1\0\155\1\1\0\104\1\1\0\47\1\1\0"+
-    "\25\1\1\0\5\1\1\11\14\1\1\0\11\1\1\0"+
-    "\10\1\1\0\7\1\1\0\24\1";
+    "\1\0\1\11\5\1\1\11\44\1\1\0\3\1\2\0"+
+    "\1\1\1\0\170\1\2\0\227\1\1\11\44\1\1\0"+
+    "\155\1\1\0\104\1\1\0\47\1\1\0\25\1\1\0"+
+    "\5\1\1\11\14\1\1\0\11\1\1\0\10\1\1\0"+
+    "\7\1\1\0\24\1";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[670];
@@ -1396,52 +1396,57 @@ class Lexer {
             { line=yyline; col=yycolumn; lexeme=yytext(); return ERROR;
             } 
             // fall through
-          case 11: break;
+          case 12: break;
           case 2: 
             { line=yyline; col=yycolumn; lexeme=yytext(); return Identificador;
             } 
             // fall through
-          case 12: break;
+          case 13: break;
           case 3: 
             { line=yyline; col=yycolumn; lexeme=yytext(); return Decimal;
             } 
             // fall through
-          case 13: break;
+          case 14: break;
           case 4: 
             { line=yyline; col=yycolumn; lexeme=yytext(); return Operador;
             } 
             // fall through
-          case 14: break;
+          case 15: break;
           case 5: 
             { /*Ignore*/
             } 
             // fall through
-          case 15: break;
+          case 16: break;
           case 6: 
             { line=yyline; col=yycolumn; lexeme=yytext(); return Comentario;
             } 
             // fall through
-          case 16: break;
-          case 7: 
-            { line=yyline; col=yycolumn; lexeme=yytext(); return Entero;
-            } 
-            // fall through
           case 17: break;
-          case 8: 
-            { line=yyline; col=yycolumn; lexeme=yytext(); return String;
+          case 7: 
+            { line=yyline; col=yycolumn; lexeme=yytext(); return Comentario_Incompleto;
             } 
             // fall through
           case 18: break;
-          case 9: 
-            { line=yyline; col=yycolumn; lexeme=yytext(); return Reservadas;
+          case 8: 
+            { line=yyline; col=yycolumn; lexeme=yytext(); return Entero;
             } 
             // fall through
           case 19: break;
-          case 10: 
-            { line=yyline; col=yycolumn; lexeme=yytext(); return Boolean;
+          case 9: 
+            { line=yyline; col=yycolumn; lexeme=yytext(); return String;
             } 
             // fall through
           case 20: break;
+          case 10: 
+            { line=yyline; col=yycolumn; lexeme=yytext(); return Reservadas;
+            } 
+            // fall through
+          case 21: break;
+          case 11: 
+            { line=yyline; col=yycolumn; lexeme=yytext(); return Boolean;
+            } 
+            // fall through
+          case 22: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
