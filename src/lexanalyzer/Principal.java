@@ -12,9 +12,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java_cup.runtime.Symbol;
 import javax.swing.JFileChooser;
+import lexanalyzer.LexAnalyzer;
 
 /**
  *
@@ -82,65 +87,24 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_analizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_analizarActionPerformed
-        // TODO add your handling code here:
-        JFileChooser pick = new JFileChooser();
-        pick.showOpenDialog(null);      
+        String lector = "";
         try {
-            Reader lector = new BufferedReader(new FileReader(pick.getSelectedFile()));
-            BufferedWriter out = new BufferedWriter(new FileWriter("res.out"));
-            Lexer lex = new Lexer(lector);
-            String res = "";
-            String outText = "";
-            while (true) {
-                Tokens tokens = lex.yylex();
-                if(tokens == null){
-                    res += "FIN";
-                    txtA_resultado.setText(res);
-                    out.append("EOF");
-                    out.close();
-                    break;
-                }
-                switch(tokens){
-                    case ERROR:
-                        
-
-                     
-                         res += "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col+"\n";
-                         outText = "Simbolo no definido: " + lex.lexeme + " en la linea: "+ lex.line +" y la columna: "+lex.col;
-                         out.append(outText);
-                         out.newLine();
-                     
-                        break;
-                    case Reservadas: case Entero: case Decimal: case String: case Boolean: case Comentario: case Operador: case Comentario_Incompleto:
-                        res += lex.lexeme+": Es un "+tokens+"\n";
-                        outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-                        out.append(outText);
-                        out.newLine();
-                        break;
-                    case Identificador:
-                        if(lex.lexeme.length() > 31){
-                           res += "El identificador excede el limite de caracteres, se utilizaran los primeros 31 en el archivo\n";
-                           outText = lex.lexeme.substring(0, 31)+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-                           out.append(outText);
-                           out.newLine();
-                        }
-                        else{
-                            res += lex.lexeme+": Es un "+tokens+"\n";
-                            outText = lex.lexeme+": Es un "+tokens+" en la linea: "+lex.line+" y la columna: "+lex.col;
-                            out.append(outText);
-                            out.newLine();
-                        }
-                        break;
-                    default:
-                        break;
+            // TODO add your handling code here:
+            JFileChooser pick = new JFileChooser();
+            pick.showOpenDialog(null);
+            lector = new String(Files.readAllBytes(Paths.get(pick.getSelectedFile().toURI())));
+            Syntax s = new Syntax(new lexanalyzer.Lexer(new StringReader(lector)));
+            try {
+                s.parse();
+                txtA_resultado.setText("Correcto");
                 
-                }
+            } catch (Exception e) {
+                Symbol sym = s.getS();
+                txtA_resultado.setText(sym.right+" "+sym.value);
             }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }  
     }//GEN-LAST:event_btn_analizarActionPerformed
 
     /**

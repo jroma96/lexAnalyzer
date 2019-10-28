@@ -6,18 +6,32 @@
 package lexanalyzer;
 
 import java.io.File;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 /**
  *
  * @author Roma
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         String ruta = "C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/lexer.flex";
-        genLexer(ruta);
+        String [] rutaS = {"-parser", "Syntax", "C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Syntax.cup"};
+        genFiles(ruta, rutaS);
     }
-    public static void genLexer (String ruta){
-        File archivo = new File(ruta);
+    public static void genFiles(String ruta, String [] rutaS) throws IOException, Exception{
+        File archivo;
+        archivo = new File(ruta);
         jflex.Main.generate(archivo);
+        java_cup.Main.main(rutaS);
+        
+        Files.move(
+                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/sym.java"), 
+                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/sym.java")
+        );
+        Files.move(
+                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/Syntax.java"), 
+                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Syntax.java")
+        );
     }
 }

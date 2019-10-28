@@ -1,0 +1,62 @@
+package lexanalyzer;
+import java_cup.runtime.Symbol;
+
+parser code{:
+    private Symbol s;
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+    }
+:}; 
+
+terminal ParentesisA, Positivo, Negativo, Comma, PuntoComma, ParentesisC, At, Comentario, Comentario_Incompleto, Select, From, Into,
+Insert, Top, Where, OpenQuery, OpenRowset, Values, DefaultValues, Default, Null, And, Not, Or, All, Some, Like,
+Between, In, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, Entero, String, Boolean, Operador, ERROR, Punto;
+
+non terminal Programa, opcionSelect, opcionInsert, opcionDrop, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
+O, P, expression, constant, operadorB, expression2, S, FIN;
+
+start with Programa;
+Programa ::= opcionInsert | opcionSelect | opcionDrop | opcionTruncate
+;
+opcionInsert ::= A
+;
+A ::= Insert Top ParentesisA Entero ParentesisC B FIN
+;
+B ::= Into C | C
+;
+C ::= object E | rowsetFunc E
+;
+object ::= Identificador | Identificador Punto Identificador | Identificador Punto Identificador Punto Identificador | Identificador Punto Identificador Punto Identificador Punto Identificador
+;
+rowsetFunc ::= OpenQuery ParentesisA Identificador Comma String ParentesisC | oRowset
+;
+oRowset ::= OpenRowset ParentesisA String Comma String Comma F ParentesisC | OpenRowset ParentesisA String Comma String PuntoComma String PuntoComma String Comma F ParentesisC
+;
+F ::= Identificador | Identificador Punto Identificador | Identificador Punto Identificador Punto Identificador | String
+;
+E ::= ParentesisA columnList ParentesisC L | L
+;
+columnList ::= Identificador M
+;
+M ::= Comma Identificador M | /*epsilon*/
+;
+L ::= Values N | DefaultValues
+;
+N ::= ParentesisA Default O ParentesisC P | ParentesisA Null O ParentesisC P | ParentesisA expression O ParentesisC P
+;
+O ::= Comma Default O | Comma Null O | Comma expression O | /*epsilon*/
+;
+P ::= ParentesisA Default O ParentesisC P | ParentesisA Null O ParentesisC P | ParentesisA expression O ParentesisC P | /*epsilon*/
+;
+expression ::= constant | Identificador | Identificador Punto Identificador | At Identificador | ParentesisA expression ParentesisC | Positivo expression | Negativo expression| expression2
+;
+expression2 ::= Sum ParentesisA S expression ParentesisC
+;
+S ::= All | Distinct | /*epsilon*/
+;
+FIN ::= FinSentencia
+;
