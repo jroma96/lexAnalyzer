@@ -18,7 +18,7 @@ ParentesisA = "("
 ParentesisC = ")"
 espacio=[\s\t\r]+
 errorComentario = "/*"[^"*/"]*
-comentarioM=(("/")("*")([^"/*"])*("*")("/"))
+comentarioM=[/][*][^]*[*][/]
 comentarioU=\-\-[^\n]*
 Entero = [\-\+]?\d+
 float = [\-\+]?[0-9]+\.[0-9]*([eE][\-\+]?[0-9]+)?
@@ -47,6 +47,15 @@ Punto = [\.]
 ({cadenaD}|{cadenaU})           {return new Symbol(sym.String, yychar, yyline, yytext());}
 {bool}                          {return new Symbol(sym.Boolean, yychar, yyline, yytext());}
 {operador}                      {return new Symbol(sym.Operador, yychar, yyline, yytext());}
+INCLUDE                         {return new Symbol(sym.Include, yychar, yyline, yytext());}
+ASC                             {return new Symbol(sym.Asc, yychar, yyline, yytext());}
+DESC                            {return new Symbol(sym.Desc, yychar, yyline, yytext());}
+OBJECT                          {return new Symbol(sym.Object, yychar, yyline, yytext());}
+CLUSTERED                       {return new Symbol(sym.Clustered, yychar, yyline, yytext());}
+NONCLUSTERED                    {return new Symbol(sym.NonClustered, yychar, yyline, yytext());}
+CREATE                          {return new Symbol(sym.Create, yychar, yyline, yytext());}
+USER                            {return new Symbol(sym.User, yychar, yyline, yytext());}
+UNIQUE                          {return new Symbol(sym.Unique, yychar, yyline, yytext());}
 TRUNCATE                        {return new Symbol(sym.Truncate, yychar, yyline, yytext());}
 IF                              {return new Symbol(sym.If, yychar, yyline, yytext());}
 ON                              {return new Symbol(sym.On, yychar, yyline, yytext());}
@@ -85,7 +94,7 @@ MAX                             {return new Symbol(sym.Max, yychar, yyline, yyte
 MIN                             {return new Symbol(sym.Min, yychar, yyline, yytext());}
 DAY                             {return new Symbol(sym.Day, yychar, yyline, yytext());}
 YEAR                            {return new Symbol(sym.Year, yychar, yyline, yytext());}
-MONTH                           {return new Symbol(sym.Mont, yychar, yyline, yytext());}
+MONTH                           {return new Symbol(sym.Month, yychar, yyline, yytext());}
 INNER                           {return new Symbol(sym.Inner, yychar, yyline, yytext());}
 JOIN                            {return new Symbol(sym.Join, yychar, yyline, yytext());}
 AS                              {return new Symbol(sym.As, yychar, yyline, yytext());}

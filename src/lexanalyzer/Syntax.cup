@@ -15,20 +15,49 @@ parser code{:
 terminal ParentesisA, Positivo, Negativo, Comma, PuntoComma, ParentesisC, At, Comentario, Comentario_Incompleto, Select, From, Into,
 Insert, Top, Where, Drop, OpenQuery, OpenRowset, Values, DefaultValues, Default, Null, And, Not, Or, All, Some, Like,
 Between, In, If, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, Entero, String, Boolean, Operador, ERROR, Punto, Login, 
-Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Truncate;
+Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Create, User, 
+Unique, Truncate, Clustered, NonClustered, Object, Asc, Desc, Include;
 
-non terminal Programa, Programa2, opcionSelect, opcionInsert, opcionDrop, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
+non terminal Programa, Programa2, opcionSelect, opcionInsert, opcionDrop, opcionCreate, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
 O, P, expression, constant, operadorB, expression2, S, DropB, DropC, DropD, DropE, DropF, DropX, DropG, DropH, DropK, DropL, DropJ, DropM, DropN, DropO, 
-DropObject, DropObject2, DropZ, expressionTemp, Sel1, Sel2, Sel3, Sel4, Sel5, Sel6, Sel7, AgFunction, FIN;
+DropObject, DropObject2, DropZ, expressionTemp, Sel1, Sel2, Sel3, Sel4, Sel5, Sel6, Sel7, AgFunction, Create1,
+Create2, Create3, Create4, Create5, Create6, Create7, Create8, Create9, Create10, Create11, Create12, 
+Create13, Create14, Create15, FIN;
 
 start with Programa;
 Programa ::= opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
 ;
-Programa2 ::= opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+Programa2 ::= opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+;
+opcionCreate ::= Create Create1 FIN 
+;
+Create1 ::= Table Create11 | User object | Database object | Create2 Create4 
+;
+Create2 ::= Unique Create3 | Create3
+;
+Create3 ::= Clustered | NonClustered
+;
+Create4 ::= Index Identificador On object Create5 
+;
+Create5 ::= ParentesisA Create6 
+;
+Create6 ::= Identificador Create7 Create8 
+;
+Create7 ::= Asc | Desc | /*epsilon*/ 
+;
+Create8 ::= Comma Create6 | Create9
+;
+Create9 ::= Include ParentesisA Identificador Create10 ParentesisC
+;
+Create10 ::= Comma Identificador Create10 | /*epsilon*/
+;
+Create11 ::= object Create12
+;
+Create12 ::= 
 ;
 opcionSelect ::= Select Sel1 From Sel3 Sel6 Sel7 FIN
 ;
-Sel6 ::= /*epsilon*/ | Where expression
+Sel6 ::= /*epsilon*/ | Where AgFunction ParentesisA Sel5 ParentesisC Operador constant | Where expression
 ;
 Sel7 ::= Order By object | /*epsilon*/
 ;
