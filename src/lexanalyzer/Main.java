@@ -24,14 +24,27 @@ public class Main {
         archivo = new File(ruta);
         jflex.Main.generate(archivo);
         java_cup.Main.main(rutaS);
-        
-        Files.move(
-                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/sym.java"), 
-                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/sym.java")
-        );
-        Files.move(
-                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/Syntax.java"), 
-                Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Syntax.java")
-        );
+        if(Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/sym.java").toFile().exists()){
+            Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/sym.java").toFile().delete();
+            Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Syntax.java").toFile().delete();
+            Files.move(
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/sym.java"), 
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/sym.java")
+            );
+            Files.move(
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/Syntax.java"), 
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Syntax.java")
+            );
+        }
+        else{
+            Files.move(
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/sym.java"), 
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/sym.java")
+            );
+            Files.move(
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/Syntax.java"), 
+                    Paths.get("C:/Users/Obed/Documents/GitHub/lexAnalyzer/src/lexanalyzer/Syntax.java")
+            );
+        }
     }
 }

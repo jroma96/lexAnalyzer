@@ -13,18 +13,74 @@ parser code{:
 :}; 
 
 terminal ParentesisA, Positivo, Negativo, Comma, PuntoComma, ParentesisC, At, Comentario, Comentario_Incompleto, Select, From, Into,
-Insert, Top, Where, OpenQuery, OpenRowset, Values, DefaultValues, Default, Null, And, Not, Or, All, Some, Like,
-Between, In, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, Entero, String, Boolean, Operador, ERROR, Punto;
+Insert, Top, Where, Drop, OpenQuery, OpenRowset, Values, DefaultValues, Default, Null, And, Not, Or, All, Some, Like,
+Between, In, If, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, Entero, String, Boolean, Operador, ERROR, Punto, Login, 
+Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Truncate;
 
-non terminal Programa, opcionSelect, opcionInsert, opcionDrop, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
-O, P, expression, constant, operadorB, expression2, S, FIN;
+non terminal Programa, Programa2, opcionSelect, opcionInsert, opcionDrop, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
+O, P, expression, constant, operadorB, expression2, S, DropB, DropC, DropD, DropE, DropF, DropX, DropG, DropH, DropK, DropL, DropJ, DropM, DropN, DropO, 
+DropObject, DropObject2, DropZ, expressionTemp, Sel1, Sel2, Sel3, Sel4, Sel5, Sel6, Sel7, AgFunction, FIN;
 
 start with Programa;
-Programa ::= opcionInsert | opcionSelect | opcionDrop | opcionTruncate
+Programa ::= opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
+;
+Programa2 ::= opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+;
+opcionSelect ::= Select Sel1 From Sel3 Sel6 Sel7 FIN
+;
+Sel6 ::= /*epsilon*/ | Where expression
+;
+Sel7 ::= Order By object | /*epsilon*/
+;
+Sel1 ::= Star Sel2 | expression Sel2 | AgFunction ParentesisA Sel5 ParentesisC Sel2
+;
+Sel5 ::= Star | expression
+;
+AgFunction ::= Count | Max | Min | Day | Month | Year
+;
+Sel2 ::= Comma Star Sel2 | Comma expression Sel2 | Comma AgFunction ParentesisA Sel5 ParentesisC Sel2 | As Identificador | /*epsilon*/
+;
+Sel3 ::= object Sel4
+;
+Sel4 ::= Inner Join object Sel4 | /*epsilon*/
+;
+opcionTruncate ::= Truncate Table object FIN
 ;
 opcionInsert ::= A
 ;
-A ::= Insert Top ParentesisA Entero ParentesisC B FIN
+opcionDrop ::= Drop Login DropB FIN | Drop Index DropF FIN | Drop Table DropC FIN | Drop View DropE FIN | Drop Database DropD FIN
+;
+DropB ::= Identificador
+;
+DropC ::= If Exists DropG | DropG
+;
+DropG ::= Identificador DropH | Identificador Punto Identificador DropH | Identificador Punto Identificador Punto Identificador DropH
+;
+DropH ::= Comma Identificador DropH | Comma Identificador Punto Identificador DropH | Comma Identificador Punto Identificador Punto Identificador DropH | /*epsilon*/
+;
+DropF ::= If Exists DropX | DropX
+;
+DropX ::= Identificador On DropObject DropObject2 | DropObject
+;
+DropObject ::= Identificador | Identificador Punto Identificador | Identificador Punto Identificador Punto Identificador
+;
+DropObject2 ::= Comma DropX | /*epsilon*/
+;
+DropD ::= If Exists DropJ | DropJ
+;
+DropJ ::= Identificador DropK
+;
+DropK ::= Comma Identificador DropK | /*epsilon*/
+;
+DropE ::= If Exists DropL | DropL
+;
+DropL ::= Identificador Punto DropM | DropM
+;
+DropM ::= Identificador DropN
+;
+DropN ::= Comma DropL | /*epsilon*/
+;
+A ::= Insert Top ParentesisA Entero ParentesisC B FIN | Insert B FIN
 ;
 B ::= Into C | C
 ;
@@ -52,7 +108,11 @@ O ::= Comma Default O | Comma Null O | Comma expression O | /*epsilon*/
 ;
 P ::= ParentesisA Default O ParentesisC P | ParentesisA Null O ParentesisC P | ParentesisA expression O ParentesisC P | /*epsilon*/
 ;
-expression ::= constant | Identificador | Identificador Punto Identificador | At Identificador | ParentesisA expression ParentesisC | Positivo expression | Negativo expression| expression2
+expression ::= constant | Identificador | Identificador Punto Identificador | At Identificador | ParentesisA expression ParentesisC | Positivo expression | Negativo expression| expression2 | expressionTemp Operador expression
+;
+expressionTemp ::= object
+;
+constant::= String | Decimal | Entero 
 ;
 expression2 ::= Sum ParentesisA S expression ParentesisC
 ;

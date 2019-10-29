@@ -5,6 +5,7 @@
  */
 package lexanalyzer;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -97,10 +98,17 @@ public class Principal extends javax.swing.JFrame {
             try {
                 s.parse();
                 txtA_resultado.setText("Correcto");
-                
+                txtA_resultado.setForeground(Color.GREEN);
             } catch (Exception e) {
                 Symbol sym = s.getS();
-                txtA_resultado.setText(sym.right+" "+sym.value);
+                if(sym.right == -1){
+                    txtA_resultado.setText("Error no se encontro final de sentencia");
+                    txtA_resultado.setForeground(Color.RED);
+                }
+                else{
+                    txtA_resultado.setText("Error en la linea: "+sym.right+" Simbolo: "+sym.value);
+                    txtA_resultado.setForeground(Color.RED);
+                }
             }
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);

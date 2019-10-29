@@ -12,58 +12,23 @@ L=[a-zA-Z_]+
 D=[0-9]+
 Positivo = "+"
 Negativo="-"
-operador = "/"|"*"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|"."|"["|"]"|"{"|"}"|"[]"|"()"|"{}"|"#"|"##"
-At = "@";
-ParentesisA = "(";
-ParentesisC = ")";
-espacio=[\t\r\n]+
+operador = "/"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|"["|"]"|"{"|"}"|"[]"|"()"|"{}"|"#"|"##"
+At = "@"
+ParentesisA = "("
+ParentesisC = ")"
+espacio=[\s\t\r]+
 errorComentario = "/*"[^"*/"]*
 comentarioM=(("/")("*")([^"/*"])*("*")("/"))
 comentarioU=\-\-[^\n]*
-Entero = \^[\-\+]?\d+
+Entero = [\-\+]?\d+
 float = [\-\+]?[0-9]+\.[0-9]*([eE][\-\+]?[0-9]+)?
 cadenaD = (\")[^\n]*(\")
 cadenaU = (\')[^\n]*(\')
 Null = "NULL"
 bool = (1|0)
 fin = (";"|"GO")
-palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"|"BACKUP"|
-                     "BEGIN"|"BETWEEN"|"BREAK"|"BROWSE"|"BULK"|"BY"|"CASCADE"|"CASE"|"CHECK"|
-                     "CHECKPOINT"|"CLOSE"|"CLUSTERED"|"COALESCE"|"COLLATE"|"COLUMN"|"COMMIT"|
-                     "COMPUTE"|"CONSTRAINT"|"CONTAINS"|"CONTAINSTABLE"|"CONTINUE"|"CONVERT"|"CREATE"|
-                     "CROSS"|"CURRENT"|"CURRENT_DATE"|"CURRENT_TIME"|"CURRENT_TIMESTAMP"|"CURRENT_USER"|
-                     "CURSOR"|"DATABASE"|"DBCC"|"DEALLOCATE"|"DECLARE"|"DEFAULT"|"DELETE"|"DENY"|"DESC"|
-                     "DISK"|"DISTINCT"|"DISTRIBUTED"|"DOUBLE"|"DROP"|"DUMP"|"ELSE"|"END"|"ERRLVL"|"ESCAPE"|
-                     "EXCEPT"|"EXEC"|"EXECUTE"|"EXISTS"|"EXIT"|"EXTERNAL"|"FETCH"|"FILE"|"FILLFACTOR"|"FOR"|
-                     "FOREIGN"|"FREETEXT"|"FREETEXTTABLE"|"FROM"|"FULL"|"FUNCTION"|"GOTO"|"GRANT"|"GROUP"|
-                     "HAVING"|"HOLDLOCK"|"IDENTITY"|"IDENTITY_INSERT"|"IDENTITYCOL"|"IF"|"IN"|"INDEX"|
-                     "INNER"|"INSERT"|"INTERSECT"|"INTO"|"IS"|"JOIN"|"KEY"|"KILL"|"LEFT"|"LIKE"|"LINENO"|
-                     "LOAD"|"MERGE"|"NATIONAL"|"NOCHECK"|"NONCLUSTERED"|"NOT"|"NULLIF"|"OF"|"OFF"|
-                     "OFFSETS"|"ON"|"OPEN"|"OPENDATASOURCE"|"OPENQUERY"|"OPENROWSET"|"OPENROWSET"|"OPTION"|
-                     "OR"|"ORDER"|"OUTER"|"OVER"|"PERCENT"|"PIVOT"|"PLAN"|"PRECISION"|"PRIMARY"|"PRINT"|
-                     "PROC"|"PROCEDURE"|"PUBLIC"|"RAISERROR"|"READ"|"READTEXT"|"RECONFIGURE"|"REFERENCES"|
-                     "REPLICATION"|"RESTORE"|"RESTRICT"|"RETURN"|"REVERT"|"REVOKE"|"RIGHT"|"ROLLBACK"|"ROWCOUNT"|
-                     "ROWGUIDCOL"|"RULE"|"SAVE"|"SCHEMA"|"SECURITYAUDIT"|"SELECT"|"SEMANTICKEYPHRASETABLE"|
-                     "SEMANTICSIMILARITYDETAILSTABLE"|"SEMANTICSIMILARITYTABLE"|"SESSION_USER"|"SET"|"SETUSER"|
-                     "SHUTDOWN"|"SOME"|"STATISTICS"|"SYSTEM_USER"|"TABLE"|"TABLESAMPLE"|"TEXTSIZE"|"THEN"|
-                     "TO"|"TOP"|"TRAN"|"TRANSACTION"|"TRIGGER"|"TRUNCATE"|"TRY_CONVERT"|"TSEQUAL"|"UNION"|
-                     "UNIQUE"|"UNPIVOT"|"UPDATE"|"UPDATETEXT"|"USE"|"USER"|"VALUES"|"VARYING"|"VIEW"|
-                     "WAITFOR"|"WHEN"|"WHERE"|"WHILE"|"WITH"|"WITHIN GROUP"|"WRITETEXT"|"ABSOLUTE"|"ACTION"|
-                     "ADA"|"ALLOCATE"|"ARE"|"ASSERTION"|"AT"|"AVG"|"BIT"|"BIT_LENGTH"|"BOTH"|"CASCADED"|
-                     "CAST"|"CATALOG"|"CHAR"|"CHAR_LENGTH"|"CHARACTER"|"CHARACTER_LENGTH"|"COLLATION"|
-                     "CONNECT"|"CONNECTION"|"CONSTRAINTS"|"CORRESPONDING"|"COUNT"|"DATE"|"DAY"|"DEC"|"DECIMAL"|
-                     "DEFERRABLE"|"DEFERRED"|"DESCRIBE"|"DESCRIPTOR"|"DIAGNOSTICS"|"DISCONNECT"|"DOMAIN"|
-                     "END-EXEC"|"EXCEPTION"|"EXTRACT"|"FALSO"|"FIRST"|"FLOAT"|"FORTRAN"|"FOUND"|"GET"|
-                     "GLOBAL"|"GO"|"HOUR"|"IMMEDIATE"|"INCLUDE"|"INDICATOR"|"INITIALLY"|"INPUT"|
-                     "INSENSITIVE"|"INT"|"INTEGER"|"INTERVAL"|"ISOLATION"|"LANGUAGE"|"LAST"|"LEADING"|
-                     "LEVEL"|"LOCAL"|"LOWER"|"MATCH"|"MAX"|"MIN"|"MINUTE"|"MODULE"|"MONTH"|"NAMES"|"NATURAL"|
-                     "NCHAR"|"NEXT"|"NO"|"NONE"|"NUMERIC"|"OCTET_LENGTH"|"ONLY"|"OUTPUT"|"OVERLAPS"|"PAD"|
-                     "PARTIAL"|"PASCAL"|"POSITION"|"PREPARE"|"PRESERVE"|"PRIOR"|"PRIVILEGES"|"REAL"|
-                     "RELATIVE"|"ROWS"|"SCROLL"|"SECOND"|"SECTION"|"SESSION"|"SIZE"|"SMALLINT"|"SPACE"|
-                     "SQL"|"SQLCA"|"SQLCODE"|"SQLERROR"|"SQLSTATE"|"SQLWARNING"|"SUBSTRING"|"SUM"|
-                     "TEMPORARY"|"TIME"|"TIMESTAMP"|"TIMEZONE_HOUR"|"TIMEZONE_MINUTE"|"TRAILING"|"TRANSLATE"|
-                     "TRANSLATION"|"TRIM"|"TRUE"|"VERDADERO"|"UNKNOWN"|"UPPER"|"USAGE"|"USING"|"VALUE"|"VARCHAR"|
-                     "WHENEVER"|"WORK"|"WRITE"|"YEAR"|"ZONE")
+Punto = [\.]
+
 
 %{
     private Symbol symbol(int type, Object value){
@@ -74,7 +39,7 @@ palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"
     }
 %}
 %%
-({comentarioU}|{comentarioM})   {return new Symbol(sym.Comentario, yychar, yyline, yytext());}
+({comentarioU}|{comentarioM})   {/*Ignore*/}
 {errorComentario}               {return new Symbol(sym.Comentario_Incompleto, yychar, yyline, yytext());}
 {espacio}                       {/*Ignore*/}
 {Entero}                        {return new Symbol(sym.Entero, yychar, yyline, yytext());}
@@ -82,6 +47,15 @@ palabrasReservadas = ("ADD"|"ALL"|"ALTER"|"AND"|"ANY"|"AS"|"ASC"|"AUTHORIZATION"
 ({cadenaD}|{cadenaU})           {return new Symbol(sym.String, yychar, yyline, yytext());}
 {bool}                          {return new Symbol(sym.Boolean, yychar, yyline, yytext());}
 {operador}                      {return new Symbol(sym.Operador, yychar, yyline, yytext());}
+TRUNCATE                        {return new Symbol(sym.Truncate, yychar, yyline, yytext());}
+IF                              {return new Symbol(sym.If, yychar, yyline, yytext());}
+ON                              {return new Symbol(sym.On, yychar, yyline, yytext());}
+DROP                            {return new Symbol(sym.Drop, yychar, yyline, yytext());}
+LOGIN                           {return new Symbol(sym.Login, yychar, yyline, yytext());}
+INDEX                           {return new Symbol(sym.Index, yychar, yyline, yytext());}
+TABLE                           {return new Symbol(sym.Table, yychar, yyline, yytext());}
+VIEW                            {return new Symbol(sym.View, yychar, yyline, yytext());}
+DATABASE                        {return new Symbol(sym.Database, yychar, yyline, yytext());}
 SELECT                          {return new Symbol(sym.Select, yychar, yyline, yytext());}
 FROM                            {return new Symbol(sym.From, yychar, yyline, yytext());}
 WHERE                           {return new Symbol(sym.Where, yychar, yyline, yytext());}
@@ -104,15 +78,27 @@ LIKE                            {return new Symbol(sym.Like, yychar, yyline, yyt
 IN                              {return new Symbol(sym.In, yychar, yyline, yytext());}
 EXISTS                          {return new Symbol(sym.Exists, yychar, yyline, yytext());}
 SUM                             {return new Symbol(sym.Sum, yychar, yyline, yytext());}
+ORDER                           {return new Symbol(sym.Order, yychar, yyline, yytext());}
+BY                              {return new Symbol(sym.By, yychar, yyline, yytext());}
+COUNT                           {return new Symbol(sym.Count, yychar, yyline, yytext());}
+MAX                             {return new Symbol(sym.Max, yychar, yyline, yytext());}
+MIN                             {return new Symbol(sym.Min, yychar, yyline, yytext());}
+DAY                             {return new Symbol(sym.Day, yychar, yyline, yytext());}
+YEAR                            {return new Symbol(sym.Year, yychar, yyline, yytext());}
+MONTH                           {return new Symbol(sym.Mont, yychar, yyline, yytext());}
+INNER                           {return new Symbol(sym.Inner, yychar, yyline, yytext());}
+JOIN                            {return new Symbol(sym.Join, yychar, yyline, yytext());}
+AS                              {return new Symbol(sym.As, yychar, yyline, yytext());}
 DISTINCT                        {return new Symbol(sym.Distinct, yychar, yyline, yytext());}
 {ParentesisA}                   {return new Symbol(sym.ParentesisA, yychar, yyline, yytext());}
 {ParentesisC}                   {return new Symbol(sym.ParentesisC, yychar, yyline, yytext());}
+{fin}                           {return new Symbol(sym.FinSentencia, yychar, yyline, yytext());}
+"*"                             {return new Symbol(sym.Star, yychar, yyline, yytext());}
 ","                             {return new Symbol(sym.Comma, yychar, yyline, yytext());}
 ";"                             {return new Symbol(sym.PuntoComma, yychar, yyline, yytext());}
 "."                             {return new Symbol(sym.Punto, yychar, yyline, yytext());}
 {At}                            {return new Symbol(sym.At, yychar, yyline, yytext());}
 {Positivo}                      {return new Symbol(sym.Positivo, yychar, yyline, yytext());}
 {Negativo}                      {return new Symbol(sym.Negativo, yychar, yyline, yytext());}
-{fin}                           {return new Symbol(sym.FinSentencia, yychar, yyline, yytext());}
 {L}({L}|{D})*                   {return new Symbol(sym.Identificador, yychar, yyline, yytext());}
  .                              {return new Symbol(sym.ERROR, yychar, yyline, yytext());}
