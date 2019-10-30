@@ -22,8 +22,8 @@ comentarioM=[/][*][^]*[*][/]
 comentarioU=\-\-[^\n]*
 Entero = [\-\+]?\d+
 float = [\-\+]?[0-9]+\.[0-9]*([eE][\-\+]?[0-9]+)?
-cadenaD = (\")[^\n]*(\")
-cadenaU = (\')[^\n]*(\')
+cadenaD = (\")[^]*(\")
+cadenaU = (\')[^']*(\')
 Null = "NULL"
 bool = (1|0)
 fin = (";"|"GO")
@@ -47,6 +47,29 @@ Punto = [\.]
 ({cadenaD}|{cadenaU})           {return new Symbol(sym.String, yychar, yyline, yytext());}
 {bool}                          {return new Symbol(sym.Boolean, yychar, yyline, yytext());}
 {operador}                      {return new Symbol(sym.Operador, yychar, yyline, yytext());}
+COLUMN                          {return new Symbol(sym.Column, yychar, yyline, yytext());}
+SET                             {return new Symbol(sym.Set, yychar, yyline, yytext());}
+UPDATE                          {return new Symbol(sym.Update, yychar, yyline, yytext());}
+OUTPUT                          {return new Symbol(sym.Output, yychar, yyline, yytext());}
+PERCENT                         {return new Symbol(sym.Percent, yychar, yyline, yytext());}
+DELETE                          {return new Symbol(sym.Delete, yychar, yyline, yytext());}
+ADD                             {return new Symbol(sym.Add, yychar, yyline, yytext());}
+MODIFY                          {return new Symbol(sym.Modify, yychar, yyline, yytext());}
+CURRENT                         {return new Symbol(sym.Current, yychar, yyline, yytext());}
+GROUP                           {return new Symbol(sym.Group, yychar, yyline, yytext());}
+ALTER                           {return new Symbol(sym.Alter, yychar, yyline, yytext());}
+INT                             {return new Symbol(sym.Int, yychar, yyline, yytext());}
+FLOAT                           {return new Symbol(sym.Float, yychar, yyline, yytext());}
+VARCHAR                         {return new Symbol(sym.Varchar, yychar, yyline, yytext());}
+BIT                             {return new Symbol(sym.Bit, yychar, yyline, yytext());}
+IDENTITY                        {return new Symbol(sym.Identity, yychar, yyline, yytext());}
+CONSTRAINT                      {return new Symbol(sym.Constraint, yychar, yyline, yytext());}
+PRIMARY                         {return new Symbol(sym.Primary, yychar, yyline, yytext());}
+KEY                             {return new Symbol(sym.Key, yychar, yyline, yytext());}
+COLLATE                         {return new Symbol(sym.Collate, yychar, yyline, yytext());}
+NAME                            {return new Symbol(sym.Name, yychar, yyline, yytext());}
+FILE                            {return new Symbol(sym.File, yychar, yyline, yytext());}
+SIZE                            {return new Symbol(sym.Size, yychar, yyline, yytext());}
 INCLUDE                         {return new Symbol(sym.Include, yychar, yyline, yytext());}
 ASC                             {return new Symbol(sym.Asc, yychar, yyline, yytext());}
 DESC                            {return new Symbol(sym.Desc, yychar, yyline, yytext());}

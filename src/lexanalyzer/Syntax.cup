@@ -16,22 +16,126 @@ terminal ParentesisA, Positivo, Negativo, Comma, PuntoComma, ParentesisC, At, Co
 Insert, Top, Where, Drop, OpenQuery, OpenRowset, Values, DefaultValues, Default, Null, And, Not, Or, All, Some, Like,
 Between, In, If, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, Entero, String, Boolean, Operador, ERROR, Punto, Login, 
 Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Create, User, 
-Unique, Truncate, Clustered, NonClustered, Object, Asc, Desc, Include;
+Unique, Truncate, Clustered, NonClustered, Object, Asc, Desc, Int, Varchar, Float, Bit, Include, Constraint, Primary, Identity, 
+Key, Collate, Name, File, Size, Alter, Group, Column, Add, Current, Modify, Delete, Percent, Output, Set,
+Update;
 
-non terminal Programa, Programa2, opcionSelect, opcionInsert, opcionDrop, opcionCreate, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
+non terminal Programa, Programa2, opcionUpdate, opcionDelete, opcionAlter, opcionSelect, opcionInsert, opcionDrop, opcionCreate, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
 O, P, expression, constant, operadorB, expression2, S, DropB, DropC, DropD, DropE, DropF, DropX, DropG, DropH, DropK, DropL, DropJ, DropM, DropN, DropO, 
-DropObject, DropObject2, DropZ, expressionTemp, Sel1, Sel2, Sel3, Sel4, Sel5, Sel6, Sel7, AgFunction, Create1,
+DropObject, DropObject2, DropZ, expressionTemp, Sel1, Sel2, Sel3, Sel4, Sel5, Sel6, Sel7, SelF, AgFunction, Create1,
 Create2, Create3, Create4, Create5, Create6, Create7, Create8, Create9, Create10, Create11, Create12, 
-Create13, Create14, Create15, FIN;
+Create13, Create14, Create15, Create16, Create17, Create18, Create19, Create20, Create21, Create22, Create23, Create24, Create25, 
+Create26, Create27, Create28, Create29, Alter1, Alter2, Alter3, Alter4, Alter5, Alter6, Alter7, Alter8, Alter9, Alter10, 
+Alter11, Alter12, Alter13, Alter14, Alter15, Alter16, Alter17, Alter18, Alter19, Alter20, Delete1, Delete2, Delete3, 
+Delete4, Delete5, Delete6, Delete7, Delete8, Delete9, Delete10, Delete11, Delete12, Delete13, Delete14, 
+Delete15, Update1, Update2, Update3, Update4, Update5, Update6, Update7, Update8, Update9, Update10, FIN;
 
 start with Programa;
-Programa ::= opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
+Programa ::= opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
 ;
-Programa2 ::= opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+Programa2 ::= opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+;
+opcionUpdate ::= Update Update1 FIN
+;
+Update1 ::= Top ParentesisA Entero ParentesisC Update2 | Update3
+;
+Update2 ::= Percent Update3 | Update3
+;
+Update3 ::= object Update4 | At Identificador Update4
+;
+Update4 ::= Set expression Update6 Update7 Update8 Update9
+;
+Update9 ::= Where expression | /*epsilon*/
+;
+Update8 ::= From object Update10 | /*epsilon*/
+;
+Update10 ::= Comma object Update10 | /*epsilon*/
+;
+Update7 ::= Output Delete6 | /*epsilon*/
+;
+Update6 ::= Comma expression Update6 | /*epsilon*/
+;
+opcionDelete ::= Delete Delete1 FIN
+;
+Delete1 ::= Top ParentesisA Entero ParentesisC Delete2 | Delete3
+;
+Delete2 ::= Percent Delete3 | Delete3
+;
+Delete3 ::= From Delete4 | Delete4
+;
+Delete4 ::= object Delete5 | At Identificador Delete5 
+;
+Delete5 ::= Output Delete6 Delete7 | Delete7 | Inner Join Delete4
+;
+Delete7 ::= Where Delete15 | /*epsilon*/
+;
+Delete15 ::= expression | AgFunction ParentesisA Sel5 ParentesisC Operador constant
+;
+Delete6 ::= Identificador Delete8 | AgFunction ParentesisA Sel5 ParentesisC Delete8
+;
+Delete8 ::= As Identificador Delete9 | Delete9
+;
+Delete9 ::= Comma Delete6 | /*epsilon*/
+;
+Delete10 ::= Into Delete11 | /*epsilon*/
+;
+Delete11 ::= At Identificador Delete12 | Identificador Delete12
+;
+Delete12 ::= Identificador Delete13 | /*epsilon*/
+;
+Delete13 ::= Comma Identificador Delete13 | /*epsilon*/
+;
+opcionAlter ::= Alter Alter1 FIN
+;
+Alter1 ::= View Alter2 | Table object Alter3 | User Alter4 | Database Alter5 Alter19
+;
+Alter4 ::= Identificador
+;
+Alter19 ::= Modify Name Operador Identificador | Collate Identificador
+;
+Alter5 ::= Identificador | Current 
+;
+Alter3 ::= Alter Column object Alter8 Alter11 | Alter11
+;
+Alter11 ::= Add Create13 | Add Create12 | Drop Alter12 Alter15
+;
+Alter12 ::= Constraint If Exists Identificador | If Exists Identificador | Constraint Identificador | Identificador | Column Alter17 Identificador Alter14
+;
+Alter17 ::= If Exists | /*epsilon*/
+;
+Alter14 ::= Comma Identificador
+;
+Alter15 ::= Comma Constraint If Exists Identificador | Comma If Exists Identificador | Comma Constraint Identificador | Comma Identificador | Comma Column Alter17 Identificador Alter14 | /*epsilon*/
+;
+Alter8 ::= object Alter9 | Alter9
+;
+Alter9 ::= Collate Identificador Alter10 | Alter10
+;
+Alter10 ::= Null | Not Null | /*epsilon*/
+;
+Alter2 ::= object ParentesisA Identificador Alter6 ParentesisC Alter7 | object As opcionSelect
+;
+Alter6 ::= Comma Identificador Alter6 | /*epsilon*/
+;
+Alter7 ::= As opcionSelect | /*epsilon*/
 ;
 opcionCreate ::= Create Create1 FIN 
 ;
-Create1 ::= Table Create11 | User object | Database object | Create2 Create4 
+Create1 ::= Table Create11 | User object | Database object Create23 | Create2 Create4 
+;
+Create23 ::= On Create28 Create25 Create24 | Collate Identificador| /*epsilon*/
+;
+Create28 ::= Primary | /*epsilon*/
+;
+Create24 ::=  Collate Identificador | /*epsilon*/
+;
+Create25 ::= ParentesisA Name Operador Create29 Comma File Operador String Create26 ParentesisC Create27
+;
+Create29 ::= String | Identificador
+;
+Create26 ::= Comma Size Operador Entero | /*epsilon*/
+;
+Create27 ::= Comma Create25 | /*epsilon*/
 ;
 Create2 ::= Unique Create3 | Create3
 ;
@@ -53,13 +157,35 @@ Create10 ::= Comma Identificador Create10 | /*epsilon*/
 ;
 Create11 ::= object Create12
 ;
-Create12 ::= 
+Create12 ::= ParentesisA Create13 ParentesisC Create20
 ;
-opcionSelect ::= Select Sel1 From Sel3 Sel6 Sel7 FIN
+Create13 ::= Identificador Create14 Create16 Create15 | Create17 | Create22
+;
+Create14 ::= Int | Float | Varchar ParentesisA Entero ParentesisC | Bit
+;
+Create15 ::= Comma Create13 | /*epsilon*/
+;
+Create16 ::=  Identity ParentesisA Entero Comma Entero ParentesisC Create21 | Not Null | Null | Constraint Identificador Create18 Create21 | /*epsilon*/
+;
+Create21 ::= Null | Not Null | /*epsilon*/
+;
+Create17 ::= Constraint Identificador Create18 Create19 Create22
+;
+Create22 ::= Comma Create17 | /*epsilon*/
+;
+Create18 ::= Primary Key Create3 | Unique Create3 | Primary Key | Unique
+;
+Create19 ::= ParentesisA Identificador Create7 ParentesisC
+;
+Create20 ::= On Primary | /*epsilon*/
+;
+opcionSelect ::= Select Sel1 From Sel3 Sel6 SelF Sel7 FIN
+;
+SelF ::= Group By object | Group By AgFunction ParentesisA Sel5 ParentesisC | /*epsilon*/ 
 ;
 Sel6 ::= /*epsilon*/ | Where AgFunction ParentesisA Sel5 ParentesisC Operador constant | Where expression
 ;
-Sel7 ::= Order By object | /*epsilon*/
+Sel7 ::= Order By object Create7 | Order By AgFunction ParentesisA Sel5 ParentesisC | /*epsilon*/
 ;
 Sel1 ::= Star Sel2 | expression Sel2 | AgFunction ParentesisA Sel5 ParentesisC Sel2
 ;
@@ -67,7 +193,7 @@ Sel5 ::= Star | expression
 ;
 AgFunction ::= Count | Max | Min | Day | Month | Year
 ;
-Sel2 ::= Comma Star Sel2 | Comma expression Sel2 | Comma AgFunction ParentesisA Sel5 ParentesisC Sel2 | As Identificador | /*epsilon*/
+Sel2 ::= Comma Star Sel2 | Comma expression Sel2 | Comma AgFunction ParentesisA Sel5 ParentesisC Sel2 | As Identificador Sel2 | /*epsilon*/
 ;
 Sel3 ::= object Sel4
 ;
@@ -139,7 +265,7 @@ P ::= ParentesisA Default O ParentesisC P | ParentesisA Null O ParentesisC P | P
 ;
 expression ::= constant | Identificador | Identificador Punto Identificador | At Identificador | ParentesisA expression ParentesisC | Positivo expression | Negativo expression| expression2 | expressionTemp Operador expression
 ;
-expressionTemp ::= object
+expressionTemp ::= object | At Identificador
 ;
 constant::= String | Decimal | Entero 
 ;
