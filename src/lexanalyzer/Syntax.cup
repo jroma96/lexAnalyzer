@@ -18,7 +18,7 @@ Between, In, If, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, En
 Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Create, User, 
 Unique, Truncate, Clustered, NonClustered, Object, Asc, Desc, Int, Varchar, Float, Bit, Include, Constraint, Primary, Identity, 
 Key, Collate, Name, File, Size, Alter, Group, Column, Add, Current, Modify, Delete, Percent, Output, Set,
-Update;
+Update, Procedure, Begin, End;
 
 non terminal Programa, Programa2, opcionUpdate, opcionDelete, opcionAlter, opcionSelect, opcionInsert, opcionDrop, opcionCreate, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
 O, P, expression, constant, operadorB, expression2, S, DropB, DropC, DropD, DropE, DropF, DropX, DropG, DropH, DropK, DropL, DropJ, DropM, DropN, DropO, 
@@ -28,12 +28,31 @@ Create13, Create14, Create15, Create16, Create17, Create18, Create19, Create20, 
 Create26, Create27, Create28, Create29, Alter1, Alter2, Alter3, Alter4, Alter5, Alter6, Alter7, Alter8, Alter9, Alter10, 
 Alter11, Alter12, Alter13, Alter14, Alter15, Alter16, Alter17, Alter18, Alter19, Alter20, Delete1, Delete2, Delete3, 
 Delete4, Delete5, Delete6, Delete7, Delete8, Delete9, Delete10, Delete11, Delete12, Delete13, Delete14, 
-Delete15, Update1, Update2, Update3, Update4, Update5, Update6, Update7, Update8, Update9, Update10, FIN;
+Delete15, Update1, Update2, Update3, Update4, Update5, Update6, Update7, Update8, Update9, Update10, 
+opcionProcedure, Proc1, Proc2, Proc3, Proc4, Proc5, Proc6, Proc7, Proc8, FIN;
 
 start with Programa;
-Programa ::= opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
+Programa ::= opcionProcedure Programa2 | opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
 ;
-Programa2 ::= opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+Programa2 ::= opcionProcedure Programa2 | opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+;
+opcionProcedure ::= Create Proc1 FIN
+;
+Proc1 ::= Or Alter Proc2 | Proc2
+;
+Proc2 ::= Procedure Proc3 | Proc3
+;
+Proc3 ::= object Proc4 Proc7
+;
+Proc4 ::= At Identificador Create14 Proc6 Proc5 | /*epsilon*/
+;
+Proc5 ::= Comma At Identificador Create14 Proc6 Proc5 | /*epsilon*/
+;
+Proc6 ::= Output | /*epsilon*/
+;
+Proc7 ::= As Begin Proc8 End | As Proc8
+;
+Proc8 ::= opcionUpdate Proc8 | opcionDelete Proc8 | opcionAlter Proc8  | opcionCreate Proc8  | opcionInsert Proc8  | opcionSelect Proc8  | opcionDrop Proc8  | opcionTruncate Proc8  | /*epsilon*/
 ;
 opcionUpdate ::= Update Update1 FIN
 ;
@@ -263,11 +282,12 @@ O ::= Comma Default O | Comma Null O | Comma expression O | /*epsilon*/
 ;
 P ::= ParentesisA Default O ParentesisC P | ParentesisA Null O ParentesisC P | ParentesisA expression O ParentesisC P | /*epsilon*/
 ;
-expression ::= constant | Identificador | Identificador Punto Identificador | At Identificador | ParentesisA expression ParentesisC | Positivo expression | Negativo expression| expression2 | expressionTemp Operador expression
+expression ::= constant | Identificador | Identificador Punto Identificador | At Identificador | ParentesisA expression ParentesisC | Positivo expression | Negativo expression| expression2 
+| expressionTemp Operador expression | expressionTemp Operador Null
 ;
 expressionTemp ::= object | At Identificador
 ;
-constant::= String | Decimal | Entero 
+constant::= String | Decimal | Entero
 ;
 expression2 ::= Sum ParentesisA S expression ParentesisC
 ;

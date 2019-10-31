@@ -12,7 +12,7 @@ L=[a-zA-Z_]+
 D=[0-9]+
 Positivo = "+"
 Negativo="-"
-operador = "/"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|"["|"]"|"{"|"}"|"[]"|"()"|"{}"|"#"|"##"
+operador = "/"|"*"|"%"|"<"|"<="|">"|">="|"="|"=="|"!="|"&&"|"||"|"!"|"["|"]"|"{"|"}"|"[]"|"()"|"{}"|"#"|"##"
 At = "@"
 ParentesisA = "("
 ParentesisC = ")"
@@ -46,11 +46,15 @@ Punto = [\.]
 {float}                         {return new Symbol(sym.Decimal, yychar, yyline, yytext());}
 ({cadenaD}|{cadenaU})           {return new Symbol(sym.String, yychar, yyline, yytext());}
 {bool}                          {return new Symbol(sym.Boolean, yychar, yyline, yytext());}
+"*"                             {return new Symbol(sym.Star, yychar, yyline, yytext());}
 {operador}                      {return new Symbol(sym.Operador, yychar, yyline, yytext());}
+PROCEDURE|PROC                  {return new Symbol(sym.Procedure, yychar, yyline, yytext());}
 COLUMN                          {return new Symbol(sym.Column, yychar, yyline, yytext());}
+BEGIN                           {return new Symbol(sym.Begin, yychar, yyline, yytext());}
+END                             {return new Symbol(sym.End, yychar, yyline, yytext());}
 SET                             {return new Symbol(sym.Set, yychar, yyline, yytext());}
 UPDATE                          {return new Symbol(sym.Update, yychar, yyline, yytext());}
-OUTPUT                          {return new Symbol(sym.Output, yychar, yyline, yytext());}
+OUTPUT|OUT                      {return new Symbol(sym.Output, yychar, yyline, yytext());}
 PERCENT                         {return new Symbol(sym.Percent, yychar, yyline, yytext());}
 DELETE                          {return new Symbol(sym.Delete, yychar, yyline, yytext());}
 ADD                             {return new Symbol(sym.Add, yychar, yyline, yytext());}
@@ -125,7 +129,6 @@ DISTINCT                        {return new Symbol(sym.Distinct, yychar, yyline,
 {ParentesisA}                   {return new Symbol(sym.ParentesisA, yychar, yyline, yytext());}
 {ParentesisC}                   {return new Symbol(sym.ParentesisC, yychar, yyline, yytext());}
 {fin}                           {return new Symbol(sym.FinSentencia, yychar, yyline, yytext());}
-"*"                             {return new Symbol(sym.Star, yychar, yyline, yytext());}
 ","                             {return new Symbol(sym.Comma, yychar, yyline, yytext());}
 ";"                             {return new Symbol(sym.PuntoComma, yychar, yyline, yytext());}
 "."                             {return new Symbol(sym.Punto, yychar, yyline, yytext());}
