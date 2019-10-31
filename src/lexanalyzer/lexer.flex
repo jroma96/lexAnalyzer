@@ -55,6 +55,17 @@ END                             {return new Symbol(sym.End, yychar, yyline, yyte
 TRANSACTION|TRAN                {return new Symbol(sym.Transaction, yychar, yyline, yytext());}
 COMMIT                          {return new Symbol(sym.Commit, yychar, yyline, yytext());}
 ROLLBACK                        {return new Symbol(sym.Rollback, yychar, yyline, yytext());}
+FUNCTION                        {return new Symbol(sym.Function, yychar, yyline, yytext());}
+SAVE                            {return new Symbol(sym.SavePoint, yychar, yyline, yytext());}
+DECLARE                         {return new Symbol(sym.Declare, yychar, yyline, yytext());}
+CURSOR                          {return new Symbol(sym.Cursor, yychar, yyline, yytext());}
+LOCAL                           {return new Symbol(sym.Local, yychar, yyline, yytext());}
+GLOBAL                          {return new Symbol(sym.Global, yychar, yyline, yytext());}
+FOR                             {return new Symbol(sym.For, yychar, yyline, yytext());}
+OPEN                            {return new Symbol(sym.Open, yychar, yyline, yytext());}
+FETCH                           {return new Symbol(sym.Fetch, yychar, yyline, yytext());}
+NEXT                            {return new Symbol(sym.Next, yychar, yyline, yytext());}
+RETURNS|RETURN                  {return new Symbol(sym.Returns, yychar, yyline, yytext());}
 SET                             {return new Symbol(sym.Set, yychar, yyline, yytext());}
 UPDATE                          {return new Symbol(sym.Update, yychar, yyline, yytext());}
 OUTPUT|OUT                      {return new Symbol(sym.Output, yychar, yyline, yytext());}

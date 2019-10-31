@@ -18,7 +18,8 @@ Between, In, If, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, En
 Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Create, User, 
 Unique, Truncate, Clustered, NonClustered, Object, Asc, Desc, Int, Varchar, Float, Bit, Include, Constraint, Primary, Identity, 
 Key, Collate, Name, File, Size, Alter, Group, Column, Add, Current, Modify, Delete, Percent, Output, Set,
-Update, Procedure, Begin, End, Transaction, Commit, Rollback;
+Update, Procedure, Function, Returns, SavePoint, Begin, End, Transaction, Commit, Rollback, Declare, Cursor,
+Local, Global, For, Open, Fetch, Next;
 
 non terminal Programa, Programa2, opcionUpdate, opcionDelete, opcionAlter, opcionSelect, opcionInsert, opcionDrop, opcionCreate, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
 O, P, expression, constant, operadorB, expression2, S, DropB, DropC, DropD, DropE, DropF, DropX, DropG, DropH, DropK, DropL, DropJ, DropM, DropN, DropO, 
@@ -29,12 +30,47 @@ Create26, Create27, Create28, Create29, Alter1, Alter2, Alter3, Alter4, Alter5, 
 Alter11, Alter12, Alter13, Alter14, Alter15, Alter16, Alter17, Alter18, Alter19, Alter20, Delete1, Delete2, Delete3, 
 Delete4, Delete5, Delete6, Delete7, Delete8, Delete9, Delete10, Delete11, Delete12, Delete13, Delete14, 
 Delete15, Update1, Update2, Update3, Update4, Update5, Update6, Update7, Update8, Update9, Update10, 
-opcionProcedure, Proc1, Proc2, Proc3, Proc4, Proc5, Proc6, Proc7, Proc8, FIN;
+opcionProcedure, opcionFunction, Func1, Func2, Func3, Func4, Func5, Func6, Func7, Func8, Proc1, Proc2, 
+Proc3, Proc4, Proc5, Proc6, Proc7, Proc8, Procx, opcionCursor, Cursor1, Cursor2, Cursor3, Cursor4, opcionTransaction, tran1, tran2, FIN;
 
 start with Programa;
-Programa ::= opcionProcedure Programa2 | opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
+Programa ::= opcionCursor Programa2 | opcionTransaction Programa2 | opcionFunction Programa2 | opcionProcedure Programa2 | opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2
 ;
-Programa2 ::= opcionProcedure Programa2 | opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+Programa2 ::= opcionCursor Programa2 | opcionTransaction Programa2 | opcionFunction Programa2 | opcionProcedure Programa2 | opcionUpdate Programa2 | opcionDelete Programa2| opcionAlter Programa2 | opcionCreate Programa2 | opcionInsert Programa2 | opcionSelect Programa2 | opcionDrop Programa2 | opcionTruncate Programa2 | /*epsilon*/
+;
+opcionCursor ::= Declare object Cursor Cursor1 Cursor2 Cursor3
+;
+Cursor1 ::= Local | Global | /*epsilon*/
+;
+Cursor2 ::= For opcionSelect
+;
+Cursor3 ::= Open Identificador Cursor4 | /*epsilon*/
+;
+Cursor4 ::= Fetch Next From Identificador FIN
+;
+opcionTransaction ::= tran1 FIN
+;
+tran1 ::= Begin Transaction tran2 | Commit | Commit Transaction tran2 | SavePoint Transaction object | Rollback Transaction tran2 
+;
+tran2 ::= Identificador | /*epsilon*/
+;
+opcionFunction ::= Create Func1 FIN
+;
+Func1 ::= Or Alter Func2 | Func2
+;
+Func2 ::= Function Func3 | Func3
+;
+Func3 ::= object Func6 Returns Create14 Func7
+;
+Func6 ::= ParentesisA Func4 ParentesisC | Func4
+;
+Func4 ::= At Identificador Create14 Proc6 Func5 | /*epsilon*/
+;
+Func5 ::= Comma At Identificador Create14 Proc6 Func5 | /*epsilon*/
+;
+Func7 ::= As Begin Func8 Returns expression End | Begin Func8 Returns expression End
+;
+Func8 ::= opcionCursor Func8 | opcionTransaction Func8 | opcionUpdate Func8 | opcionDelete Func8 | opcionAlter Func8  | opcionCreate Func8  | opcionInsert Func8  | opcionSelect Func8  | opcionDrop Func8  | opcionTruncate Func8  | /*epsilon*/
 ;
 opcionProcedure ::= Create Proc1 FIN
 ;
@@ -42,17 +78,15 @@ Proc1 ::= Or Alter Proc2 | Proc2
 ;
 Proc2 ::= Procedure Proc3 | Proc3
 ;
-Proc3 ::= object Proc4 Proc7
+Proc3 ::= object Proc4 Proc7 
 ;
-Proc4 ::= At Identificador Create14 Proc6 Proc5 | /*epsilon*/
-;
-Proc5 ::= Comma At Identificador Create14 Proc6 Proc5 | /*epsilon*/
+Proc4 ::= Func6 
 ;
 Proc6 ::= Output | /*epsilon*/
 ;
 Proc7 ::= As Begin Proc8 End | As Proc8
 ;
-Proc8 ::= opcionUpdate Proc8 | opcionDelete Proc8 | opcionAlter Proc8  | opcionCreate Proc8  | opcionInsert Proc8  | opcionSelect Proc8  | opcionDrop Proc8  | opcionTruncate Proc8  | /*epsilon*/
+Proc8 ::= opcionCursor Proc8 | opcionTransaction Proc8 | opcionUpdate Proc8 | opcionDelete Proc8 | opcionAlter Proc8  | opcionCreate Proc8  | opcionInsert Proc8  | opcionSelect Proc8  | opcionDrop Proc8  | opcionTruncate Proc8  | /*epsilon*/
 ;
 opcionUpdate ::= Update Update1 FIN
 ;
