@@ -18,7 +18,7 @@ Between, In, If, Exists, Sum, Distinct, FinSentencia, Identificador, Decimal, En
 Index, View, Database, Table, On, Star, Inner, Join, Count, Max, Min, Day, Year, Month, Order, By, As, Create, User, 
 Unique, Truncate, Clustered, NonClustered, Object, Asc, Desc, Int, Varchar, Float, Bit, Include, Constraint, Primary, Identity, 
 Key, Collate, Name, File, Size, Alter, Group, Column, Add, Current, Modify, Delete, Percent, Output, Set,
-Update, Procedure, Begin, End;
+Update, Procedure, Begin, End, Transaction, Commit, Rollback;
 
 non terminal Programa, Programa2, opcionUpdate, opcionDelete, opcionAlter, opcionSelect, opcionInsert, opcionDrop, opcionCreate, opcionTruncate, A, B, C, object, rowsetFunc, oRowset, F, E, columnList, M, L, N, 
 O, P, expression, constant, operadorB, expression2, S, DropB, DropC, DropD, DropE, DropF, DropX, DropG, DropH, DropK, DropL, DropJ, DropM, DropN, DropO, 

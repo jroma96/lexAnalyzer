@@ -52,6 +52,9 @@ PROCEDURE|PROC                  {return new Symbol(sym.Procedure, yychar, yyline
 COLUMN                          {return new Symbol(sym.Column, yychar, yyline, yytext());}
 BEGIN                           {return new Symbol(sym.Begin, yychar, yyline, yytext());}
 END                             {return new Symbol(sym.End, yychar, yyline, yytext());}
+TRANSACTION|TRAN                {return new Symbol(sym.Transaction, yychar, yyline, yytext());}
+COMMIT                          {return new Symbol(sym.Commit, yychar, yyline, yytext());}
+ROLLBACK                        {return new Symbol(sym.Rollback, yychar, yyline, yytext());}
 SET                             {return new Symbol(sym.Set, yychar, yyline, yytext());}
 UPDATE                          {return new Symbol(sym.Update, yychar, yyline, yytext());}
 OUTPUT|OUT                      {return new Symbol(sym.Output, yychar, yyline, yytext());}
